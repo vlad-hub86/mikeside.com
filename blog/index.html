@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Mikeside</title>
+  <meta name="description" content="Writing and notes on mikeside.com" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="/">mike<span>side</span></a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/photos/">Photos</a></li>
+        <li><a href="/videos/">Videos</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/projects/">Projects</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="block" style="border-top:none;">
+      <div class="container">
+        <div class="section-head">
+          <h2>Blog</h2>
+          <p>Notes, stories, and whatever else needs writing down.</p>
+        </div>
+        <!-- EDIT ME: newest posts go on top. Each post is its own HTML file in /blog/ -->
+        <div class="post-list">
+          <a class="post-item" href="/blog/hello-world.html">
+            <span>Hello, world — why this site exists</span>
+            <time datetime="2026-07-18">Jul 18, 2026</time>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> mikeside.com</div>
+      <div><a href="/">Home</a></div>
+    </div>
+  </footer>
+  <script src="/js/main.js"></script>
+</body>
+</html>

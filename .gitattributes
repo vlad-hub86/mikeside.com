@@ -1,0 +1,4 @@
+# Keep web files LF everywhere so line endings never churn
+* text=auto eol=lf
+*.jpg binary
+*.png binary
