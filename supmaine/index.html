@@ -235,6 +235,20 @@
   .weather-chip b{font-family:"Bricolage Grotesque",serif;font-size:16px;font-weight:800}
   .weather-chip small{color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;font-size:10px}
 
+  /* ---------- per-day forecast ---------- */
+  .day-wx-group{display:flex;flex-direction:column;gap:8px;margin:0 0 14px}
+  .day-wx{
+    display:flex;gap:10px;align-items:flex-start;background:rgba(94,143,126,.08);
+    border:1px solid rgba(94,143,126,.3);border-radius:10px;padding:10px 13px;margin:0 0 14px;
+  }
+  .day-wx-group .day-wx{margin-bottom:0}
+  .day-wx .wx-emoji{font-size:22px;line-height:1;flex-shrink:0;margin-top:1px}
+  .day-wx .wx-copy{flex:1;min-width:0}
+  .day-wx .wx-line{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .day-wx .wx-range{font-family:"Bricolage Grotesque",serif;font-size:15px;font-weight:800}
+  .day-wx .wx-loc{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em}
+  .day-wx .wx-outfit{font-size:12.5px;color:var(--ink-soft);margin-top:3px}
+
   .map-section{margin-top:44px}
   #route-map{width:100%;height:380px;border-radius:var(--radius);border:1.5px solid var(--line);margin-top:14px;background:var(--paper)}
   .map-legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
@@ -315,6 +329,13 @@
 <path d="M60 60 q8 -10 16 0 q8 -10 16 0" stroke="#3E5266" stroke-width="3" fill="none"/>
 </svg><img class="fill lightboxable" loading="lazy" onerror="this.remove()" alt="Burnt Island Lighthouse, Boothbay Harbor" data-cap="Burnt Island Lighthouse, Boothbay Harbor" src="https://commons.wikimedia.org/wiki/Special:FilePath/Burnt%20Island%20Lighthouse%20Boothbay%20Harbor%2C%20Maine.JPG?width=900"></div>
         <p class="day-intro">The easing-in day. Trade Alabama humidity for salt air by noon, point the Jeep up Route 1, and let Maine introduce itself the right way: a legendary lobster roll in a village of sea captains' houses, an afternoon wandering a postcard harbor, and a night in a tiny house tucked in the pines.</p>
+        <div class="day-wx" data-lat="43.92" data-lon="-69.62" data-date="2026-08-04" data-loc="Edgecomb, ME">
+          <span class="wx-emoji">🌊</span>
+          <div class="wx-copy">
+            <div class="wx-line"><b class="wx-range">—</b><small class="wx-loc">Edgecomb, ME</small></div>
+            <div class="wx-outfit">Checking forecast…</div>
+          </div>
+        </div>
         <div style="display:flex;align-items:center;gap:8px"><svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;margin-right:2px" role="img"><circle cx="22" cy="22" r="21" fill="#EFF2ED"/><path d="M15 36 L18 14 L26 14 L29 36 Z" fill="#C9452D" opacity=".15"/><path d="M17 34 L19 16 L25 16 L27 34 Z" fill="#EFF2ED" stroke="#16293B" stroke-width="2"/><rect x="18" y="18" width="8" height="4" fill="#C9452D"/></svg><div style="flex:1"><div class="flight">
           <div><div class="apt">BHM</div><div class="tm">6:23 AM</div></div>
           <div class="mid">DL3006</div>
@@ -399,6 +420,13 @@
 <path d="M120 96 q8 -10 16 0 q8 -10 16 0" stroke="#3E5266" stroke-width="3" fill="none"/>
 </svg><img class="fill lightboxable" loading="lazy" onerror="this.remove()" alt="Camden, Maine harbor" data-cap="Camden, Maine harbor" src="https://commons.wikimedia.org/wiki/Special:FilePath/View%20of%20Camden%2C%20ME.jpg?width=900"></div>
         <p class="day-intro">The quintessential Midcoast day. Morning among Camden's schooners, a summit with the best harbor view in Maine, a mile-long granite breakwater walk, and a golden-hour lighthouse cameo — then dinner-less wandering gives way to a campfire, alpacas, and some of the darkest stargazing skies on the coast.</p>
+        <div class="day-wx" data-lat="44.21" data-lon="-69.06" data-date="2026-08-05" data-loc="Camden, ME">
+          <span class="wx-emoji">🌊</span>
+          <div class="wx-copy">
+            <div class="wx-line"><b class="wx-range">—</b><small class="wx-loc">Camden, ME</small></div>
+            <div class="wx-outfit">Checking forecast…</div>
+          </div>
+        </div>
         <div class="stop">
           <div class="stop-time">9:30a</div>
           <div>
@@ -466,6 +494,13 @@
 <path d="M240 92 q8 -10 16 0 q8 -10 16 0" stroke="#3E5266" stroke-width="3" fill="none"/>
 </svg><img class="fill lightboxable" loading="lazy" onerror="this.remove()" alt="Sand Beach, Acadia National Park" data-cap="Sand Beach, Acadia National Park" src="https://commons.wikimedia.org/wiki/Special:FilePath/Acadia%20national%20park%20sand%20beach%20z.JPG?width=900"></div>
         <p class="day-intro">The big nature day — now with a choose-your-morning. Option A walks Acadia's surf-pounded coast; Option B trades it for e-bikes on the car-free carriage roads. Both funnel to popovers at Jordan Pond and the Cadillac summit, then it's the highway south with a dockside lobster dinner en route. Long day, zero filler either way.</p>
+        <div class="day-wx" data-lat="44.34" data-lon="-68.27" data-date="2026-08-06" data-loc="Bar Harbor / Acadia, ME">
+          <span class="wx-emoji">🌊</span>
+          <div class="wx-copy">
+            <div class="wx-line"><b class="wx-range">—</b><small class="wx-loc">Bar Harbor / Acadia, ME</small></div>
+            <div class="wx-outfit">Checking forecast…</div>
+          </div>
+        </div>
         <div class="alt-head"><b>Option A — Coastal classic</b> · the original plan: surf, cliffs, Thunder Hole</div>
         <div class="stop">
           <div class="stop-time">10:00a</div>
@@ -558,6 +593,13 @@
       </button>
       <div class="card-body">
         <p class="day-intro">The wedding begins. A slow breakfast with the crew in Cape Elizabeth, a free morning with nothing owed to anyone, then a walk-on ferry across Casco Bay to an island lobster bake at sunset. This is the day the road trip becomes the celebration.</p>
+        <div class="day-wx" data-lat="43.56" data-lon="-70.20" data-date="2026-08-07" data-loc="Cape Elizabeth, ME">
+          <span class="wx-emoji">🌊</span>
+          <div class="wx-copy">
+            <div class="wx-line"><b class="wx-range">—</b><small class="wx-loc">Cape Elizabeth, ME</small></div>
+            <div class="wx-outfit">Checking forecast…</div>
+          </div>
+        </div>
         <div class="day-photo"><svg class="fill" viewBox="0 0 900 250" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">
 <rect width="900" height="250" fill="#E4D7B8"/>
 <rect width="900" height="150" fill="#DCE8E3" opacity=".55"/>
@@ -635,6 +677,22 @@
 <path d="M418 44 L424 32 L430 44 Z" fill="#E4D7B8"/>
 </svg><img class="fill lightboxable" loading="lazy" onerror="this.remove()" alt="Portland, Maine from the harbor" data-cap="Portland, Maine from the harbor" src="https://commons.wikimedia.org/wiki/Special:FilePath/View%20of%20the%20City%20of%20Portland%2C%20Maine%2C%20from%20the%20Harbor.jpg?width=900"></div>
         <p class="day-intro">The main event. Saturday belongs entirely to the couple — vows by the ocean, dinner, and dancing till ten. Sunday belongs to recovery: every beach and lighthouse on the hosts' list is within ten minutes, and doing absolutely nothing is also on the menu.</p>
+        <div class="day-wx-group">
+          <div class="day-wx" data-lat="43.56" data-lon="-70.20" data-date="2026-08-08" data-loc="Cape Elizabeth, ME — Sat">
+            <span class="wx-emoji">🌊</span>
+            <div class="wx-copy">
+              <div class="wx-line"><b class="wx-range">—</b><small class="wx-loc">Cape Elizabeth, ME — Sat</small></div>
+              <div class="wx-outfit">Checking forecast…</div>
+            </div>
+          </div>
+          <div class="day-wx" data-lat="43.56" data-lon="-70.20" data-date="2026-08-09" data-loc="Cape Elizabeth, ME — Sun">
+            <span class="wx-emoji">🌊</span>
+            <div class="wx-copy">
+              <div class="wx-line"><b class="wx-range">—</b><small class="wx-loc">Cape Elizabeth, ME — Sun</small></div>
+              <div class="wx-outfit">Checking forecast…</div>
+            </div>
+          </div>
+        </div>
         <div class="stop">
           <div class="stop-time">💍</div>
           <div>
@@ -755,6 +813,13 @@
 <path d="M730 118 a26 26 0 0 1 52 0 q0 14 -26 16 q-26 -2 -26 -16 Z" fill="#C9452D" stroke="#16293B" stroke-width="4"/>
 </svg><img class="fill lightboxable" loading="lazy" onerror="this.remove()" alt="Old Port, Portland" data-cap="Old Port, Portland" src="https://commons.wikimedia.org/wiki/Special:FilePath/Old%20Port%20area%20of%20Portland%2C%20ME.jpg?width=900"></div>
         <p class="day-intro">The victory lap, two flavors. Option A eats its way through the Old Port; Option B earns dinner with a saltmarsh ride, a Kennebunkport afternoon, and a walk across the ocean floor. Both end the same way: the hosts' dinner pick, drop the Jeep, shuttle to the hotel, pack for the early exit.</p>
+        <div class="day-wx" data-lat="43.66" data-lon="-70.26" data-date="2026-08-10" data-loc="Portland, ME">
+          <span class="wx-emoji">🌊</span>
+          <div class="wx-copy">
+            <div class="wx-line"><b class="wx-range">—</b><small class="wx-loc">Portland, ME</small></div>
+            <div class="wx-outfit">Checking forecast…</div>
+          </div>
+        </div>
         <div class="alt-head"><b>Option A — Old Port food crawl</b> · the original plan: coffee, fries, oysters, gelato</div>
         <div class="stop">
           <div class="stop-time">9:00a</div>
@@ -875,6 +940,13 @@
 <g fill="#E4D7B8" opacity=".6"><circle cx="240" cy="238" r="4"/><circle cx="330" cy="236" r="4"/><circle cx="420" cy="235" r="4"/><circle cx="510" cy="236" r="4"/><circle cx="600" cy="238" r="4"/></g>
 </svg></div>
         <p class="day-intro">The painless goodbye. No rental-car scramble in the dark — just a shuttle, two flights, and home before lunch with a phone full of lighthouses.</p>
+        <div class="day-wx" data-lat="43.66" data-lon="-70.26" data-date="2026-08-11" data-loc="Portland, ME">
+          <span class="wx-emoji">🌊</span>
+          <div class="wx-copy">
+            <div class="wx-line"><b class="wx-range">—</b><small class="wx-loc">Portland, ME</small></div>
+            <div class="wx-outfit">Checking forecast…</div>
+          </div>
+        </div>
         <div class="stop">
           <div class="stop-time">4:45a</div>
           <div>
@@ -1041,6 +1113,79 @@
       .catch(function(){
         document.getElementById("wx-label").textContent = "weather check unavailable";
       });
+  })();
+
+  // ---- per-day forecast + outfit suggestions (Open-Meteo, no key needed) ----
+  (function(){
+    var codeInfo = {
+      0:{emoji:"☀️",label:"Clear"},1:{emoji:"🌤️",label:"Mostly clear"},2:{emoji:"⛅",label:"Partly cloudy"},
+      3:{emoji:"☁️",label:"Overcast"},45:{emoji:"🌫️",label:"Foggy"},48:{emoji:"🌫️",label:"Foggy"},
+      51:{emoji:"🌦️",label:"Light drizzle"},53:{emoji:"🌦️",label:"Drizzle"},55:{emoji:"🌧️",label:"Dense drizzle"},
+      61:{emoji:"🌧️",label:"Light rain"},63:{emoji:"🌧️",label:"Rain"},65:{emoji:"🌧️",label:"Heavy rain"},
+      71:{emoji:"🌨️",label:"Snow"},73:{emoji:"🌨️",label:"Snow"},75:{emoji:"🌨️",label:"Heavy snow"},
+      80:{emoji:"🌦️",label:"Showers"},81:{emoji:"🌧️",label:"Showers"},82:{emoji:"⛈️",label:"Violent showers"},
+      95:{emoji:"⛈️",label:"Thunderstorms"},96:{emoji:"⛈️",label:"Thunderstorms"},99:{emoji:"⛈️",label:"Thunderstorms"}
+    };
+    var wetCodes = [51,53,55,61,63,65,80,81,82,95,96,99];
+
+    function outfitFor(code, tmax, tmin, pop){
+      var pieces = [];
+      if (wetCodes.indexOf(code) > -1 || (typeof pop === "number" && pop >= 50)){
+        pieces.push("pack a rain shell and shoes that can handle getting wet");
+      } else if (code === 45 || code === 48){
+        pieces.push("a light layer for morning fog — it should burn off by afternoon");
+      }
+      if (tmax >= 78) pieces.push("shorts and a breathable top, plus sunscreen and a hat for peak sun");
+      else if (tmax >= 68) pieces.push("light layers — a tee by day is usually enough");
+      else pieces.push("a warmer layer, temps stay on the cool side");
+      if (tmin <= 58) pieces.push("bring a jacket for the evening chill off the water");
+      return pieces.join("; ") + ".";
+    }
+
+    var els = Array.prototype.slice.call(document.querySelectorAll(".day-wx[data-date]"));
+    var byLocation = {};
+    els.forEach(function(el){
+      var key = el.dataset.lat + "," + el.dataset.lon;
+      (byLocation[key] = byLocation[key] || []).push(el);
+    });
+
+    Object.keys(byLocation).forEach(function(key){
+      var group = byLocation[key];
+      var lat = group[0].dataset.lat, lon = group[0].dataset.lon;
+      var url = "https://api.open-meteo.com/v1/forecast?latitude=" + lat + "&longitude=" + lon +
+        "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max" +
+        "&temperature_unit=fahrenheit&timezone=America%2FNew_York&forecast_days=16";
+      fetch(url)
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          group.forEach(function(el){
+            var idx = d.daily && d.daily.time ? d.daily.time.indexOf(el.dataset.date) : -1;
+            var loc = el.dataset.loc;
+            var rangeEl = el.querySelector(".wx-range");
+            var outfitEl = el.querySelector(".wx-outfit");
+            var emojiEl = el.querySelector(".wx-emoji");
+            if (idx === -1){
+              emojiEl.textContent = "🧭";
+              rangeEl.textContent = "Forecast opens closer to the date";
+              outfitEl.textContent = "Beyond the ~16-day forecast window. Early-August " + loc.replace(/ — .*/,"") + " typically runs upper 60s–mid 70s°F by day, upper 50s at night — pack layers you can add or shed, plus a light rain shell just in case.";
+              return;
+            }
+            var code = d.daily.weather_code[idx];
+            var tmax = Math.round(d.daily.temperature_2m_max[idx]);
+            var tmin = Math.round(d.daily.temperature_2m_min[idx]);
+            var pop = d.daily.precipitation_probability_max ? d.daily.precipitation_probability_max[idx] : undefined;
+            var info = codeInfo[code] || {emoji:"🌊", label:"Mixed"};
+            emojiEl.textContent = info.emoji;
+            rangeEl.textContent = tmax + "°/" + tmin + "°F — " + info.label;
+            outfitEl.textContent = "Wear: " + outfitFor(code, tmax, tmin, pop);
+          });
+        })
+        .catch(function(){
+          group.forEach(function(el){
+            el.querySelector(".wx-outfit").textContent = "Forecast unavailable right now — check back closer to the date.";
+          });
+        });
+    });
   })();
 
   // ---- photo lightbox ----
