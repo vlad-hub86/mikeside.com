@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Vlad's Dashboard</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface-1:      #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;
+    --series-2:       #eb6834;
+    --series-3:       #1baf7a;
+    --status-good:     #0ca30c;
+    --status-warning:  #fab219;
+    --status-serious:  #ec835a;
+    --status-critical: #d03b3b;
+    --good-text:      #006300;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface-1:      #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --series-2:       #d95926;
+      --series-3:       #199e70;
+      --good-text:      #0ca30c;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+    padding: 24px 16px 48px;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  header { margin-bottom: 20px; }
+  .masthead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+  h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+  .live-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; color: var(--good-text);
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 10px; background: var(--surface-1);
+  }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--status-good); }
+  .updated { font-size: 13px; color: var(--text-muted); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 18px 16px;
+  }
+  .card-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 8px; margin-bottom: 14px;
+  }
+  .card-title { font-size: 15px; font-weight: 700; }
+  .card-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .src-badge {
+    font-size: 11px; font-weight: 600; color: var(--text-secondary);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 2px 8px; white-space: nowrap;
+  }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .tile { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+  .tile .v { font-size: 24px; font-weight: 700; line-height: 1.2; }
+  .tile .l { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .mix-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+  .mixbar { display: flex; height: 14px; border-radius: 4px; overflow: hidden; gap: 2px; background: var(--page); }
+  .mixbar div { height: 100%; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; font-size: 12px; color: var(--text-secondary); }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .swatch { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+  .sect-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-muted); margin: 14px 0 8px;
+  }
+  ul.plain { list-style: none; }
+  .item {
+    display: flex; gap: 10px; padding: 9px 2px;
+    border-top: 1px solid var(--grid); align-items: flex-start;
+  }
+  .item:first-child { border-top: none; }
+  .tag {
+    flex: none; font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+    border-radius: 4px; padding: 3px 6px; margin-top: 1px;
+    color: var(--text-primary); border: 1px solid var(--border);
+  }
+  .tag.security { border-color: var(--status-critical); color: var(--status-critical); }
+  .tag.deadline { border-color: var(--status-serious); color: var(--status-serious); }
+  .tag.receipt  { border-color: var(--baseline); color: var(--text-secondary); }
+  .tag.setup    { border-color: var(--baseline); color: var(--text-secondary); }
+  .tag.pr       { border-color: var(--series-1); color: var(--series-1); }
+  .tag.stale    { border-color: var(--status-warning); color: var(--text-secondary); }
+  .item .t { font-size: 13.5px; line-height: 1.35; }
+  .item .m { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .item a { color: inherit; }
+  .commit {
+    display: flex; gap: 10px; padding: 7px 2px; border-top: 1px solid var(--grid);
+    font-size: 13px; line-height: 1.4;
+  }
+  .commit:first-child { border-top: none; }
+  .commit .repo {
+    flex: none; font-size: 11px; font-weight: 600; color: var(--text-secondary);
+    font-variant-numeric: tabular-nums; padding-top: 2px; width: 92px;
+  }
+  .note {
+    margin-top: 14px; font-size: 12px; color: var(--text-muted);
+    border-top: 1px solid var(--grid); padding-top: 10px; line-height: 1.5;
+  }
+  footer { margin-top: 20px; font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="masthead">
+      <h1>Vlad's Dashboard</h1>
+      <span class="live-pill"><span class="live-dot"></span>LIVE</span>
+      <span class="updated">Updated Wed, Jul 22, 2026 · 6:50 PM CT · refreshes automatically twice daily</span>
+    </div>
+  </header>
+
+  <div class="grid2">
+
+    <!-- ============ INBOX ============ -->
+    <section class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Inbox</div>
+          <div class="card-sub">personal inbox · last 7 days</div>
+        </div>
+        <span class="src-badge">Gmail · live</span>
+      </div>
+
+      <div class="tiles">
+        <div class="tile"><div class="v">200+</div><div class="l">unread threads</div></div>
+        <div class="tile"><div class="v">5</div><div class="l">need attention</div></div>
+        <div class="tile"><div class="v">~97%</div><div class="l">promo / noise</div></div>
+      </div>
+
+      <div class="mix-label">7-day mix (approximate)</div>
+      <div class="mixbar" role="img" aria-label="Inbox mix: roughly 190 promotions and updates, 7 primary, 1 social">
+        <div style="flex: 190; background: var(--series-2);"></div>
+        <div style="flex: 7;  background: var(--series-1);"></div>
+        <div style="flex: 3;  background: var(--series-3);"></div>
+      </div>
+      <div class="legend">
+        <span><span class="swatch" style="background: var(--series-2);"></span>Promos &amp; updates (~190)</span>
+        <span><span class="swatch" style="background: var(--series-1);"></span>Primary (7)</span>
+        <span><span class="swatch" style="background: var(--series-3);"></span>Social (1)</span>
+      </div>
+
+      <div class="sect-label">Needs attention (by type)</div>
+      <ul class="plain">
+        <li class="item">
+          <span class="tag security">Security</span>
+          <div>
+            <div class="t">2 sign-in alerts</div>
+            <div class="m">details in the private dashboard</div>
+          </div>
+        </li>
+        <li class="item">
+          <span class="tag deadline">Deadline</span>
+          <div>
+            <div class="t">1 account deadline (early September)</div>
+            <div class="m">details in the private dashboard</div>
+          </div>
+        </li>
+        <li class="item">
+          <span class="tag receipt">Receipt</span>
+          <div>
+            <div class="t">1 payment confirmation</div>
+            <div class="m">details in the private dashboard</div>
+          </div>
+        </li>
+        <li class="item">
+          <span class="tag setup">Setup</span>
+          <div>
+            <div class="t">1 account-setup notice</div>
+            <div class="m">details in the private dashboard</div>
+          </div>
+        </li>
+      </ul>
+      <div class="note">
+        Public view — email senders, subjects, and amounts are shown only in the
+        private version of this dashboard.
+      </div>
+    </section>
+
+    <!-- ============ GITHUB ============ -->
+    <section class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">GitHub Activity</div>
+          <div class="card-sub">github.com/vlad-hub86 · 4 repos</div>
+        </div>
+        <span class="src-badge">GitHub · live</span>
+      </div>
+
+      <div class="tiles">
+        <div class="tile"><div class="v">8</div><div class="l">commits today</div></div>
+        <div class="tile"><div class="v">3</div><div class="l">open PRs</div></div>
+        <div class="tile"><div class="v">2</div><div class="l">repos active today</div></div>
+      </div>
+
+      <div class="sect-label">Open pull requests</div>
+      <ul class="plain">
+        <li class="item">
+          <span class="tag stale">16 days</span>
+          <div>
+            <div class="t"><a href="https://github.com/vlad-hub86/miajune-site/pull/3">miajune-site #3</a> — Image embedding in blog posts</div>
+            <div class="m">Yours, open since Jul 6 · tested &amp; ready — merge or close?</div>
+          </div>
+        </li>
+        <li class="item">
+          <span class="tag pr">Bot</span>
+          <div>
+            <div class="t"><a href="https://github.com/vlad-hub86/miajune-site/pull/5">miajune-site #5</a> — Cloudflare Workers config</div>
+            <div class="m">Conflicts with your Jul 21 decision (Porkbun static, wrangler.jsonc deleted) · likely close</div>
+          </div>
+        </li>
+        <li class="item">
+          <span class="tag pr">Draft</span>
+          <div>
+            <div class="t"><a href="https://github.com/vlad-hub86/phish-setlist-bot/pull/1">phish-setlist-bot #1</a> — Fix test-post workflow on self-hosted runner</div>
+            <div class="m">Copilot draft · Jul 22</div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="sect-label">Latest commits</div>
+      <ul class="plain">
+        <li class="commit"><span class="repo">setlist-bot</span><span>Show-night watchdog: auto-dispatch if cron skips <span style="color: var(--text-muted);">· 6:32 PM</span></span></li>
+        <li class="commit"><span class="repo">mikeside.com</span><span>Update index.html <span style="color: var(--text-muted);">· 2:15 AM</span></span></li>
+        <li class="commit"><span class="repo">setlist-bot</span><span>7/21 Syracuse show page + community pulse <span style="color: var(--text-muted);">· 2:02 AM</span></span></li>
+        <li class="commit"><span class="repo">setlist-bot</span><span>Tests for length gating &amp; milestone guards (16 passing) <span style="color: var(--text-muted);">· 2:00 AM</span></span></li>
+        <li class="commit"><span class="repo">miajune-site</span><span>Forms: AJAX submit with inline thank-you <span style="color: var(--text-muted);">· Jul 20</span></span></li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer>
+    Sources: Gmail (aggregate counts only) and GitHub (vlad-hub86), pulled live. All data on this page is real — no sample data.
+    Unread and mix counts are Gmail estimates, rounded. Commit times shown in CT. Auto-refresh: twice daily (7 AM &amp; 3 PM CT) via a scheduled Claude task.
+  </footer>
+</div>
+</body>
+</html>
