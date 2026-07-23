@@ -40,10 +40,12 @@
   .crew{
     display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;
   }
-  .crew span{
+  .crew span,.crew a{
     font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500;
     border:1.5px solid var(--ink);border-radius:999px;padding:5px 13px;background:var(--paper);
   }
+  .crew a{color:var(--ink);text-decoration:none;cursor:pointer;transition:all .15s}
+  .crew a:hover{background:var(--ink);color:var(--fog)}
   .countdown{
     margin-top:22px;display:inline-flex;align-items:baseline;gap:10px;
     background:var(--ink);color:var(--fog);border-radius:var(--radius);padding:14px 20px;
