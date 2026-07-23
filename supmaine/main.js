@@ -1,6 +1,45 @@
 (function(){
   "use strict";
 
+  // ---- fragment loader: fetch day/checklist/packing partials, then wire behaviour ----
+  var DAY_FRAGMENTS = [
+    "day-1-tue.html", "day-2-wed.html", "day-3-thu.html", "day-4-fri.html",
+    "day-5-satsun.html", "day-6-mon.html", "day-7-tue.html"
+  ];
+
+  function loadFragment(url){
+    return fetch(url, {cache: "no-cache"}).then(function(r){
+      if (!r.ok) throw new Error("Failed to load " + url + " (" + r.status + ")");
+      return r.text();
+    });
+  }
+
+  function injectAll(){
+    var route = document.getElementById("route");
+    var todo  = document.getElementById("todo-section");
+    var pack  = document.getElementById("pack-section");
+    var jobs = [];
+    // days must land in order; Promise.all preserves array order regardless of resolve order
+    jobs.push(
+      Promise.all(DAY_FRAGMENTS.map(loadFragment)).then(function(parts){
+        if (route) route.innerHTML = parts.join("\n");
+      }).catch(function(e){ if (window.console) console.error(e); })
+    );
+    jobs.push(
+      loadFragment("checklist.html").then(function(html){
+        if (todo) todo.innerHTML = html;
+      }).catch(function(e){ if (window.console) console.error(e); })
+    );
+    jobs.push(
+      loadFragment("packing.html").then(function(html){
+        if (pack) pack.innerHTML = html;
+      }).catch(function(e){ if (window.console) console.error(e); })
+    );
+    return Promise.all(jobs);
+  }
+
+  // ---- existing behaviour, run AFTER fragments are injected ----
+  function initBehaviors(){
   // countdown to Aug 4, 2026 (first flight day)
   (function(){
     var target = new Date("2026-08-04T06:23:00-05:00");
@@ -8,7 +47,6 @@
     var days = Math.ceil((target - now) / 86400000);
     var num = document.getElementById("cd-num");
     var label = document.getElementById("cd-label");
-    if (!num || !label) return;
     if (days > 1) { num.textContent = days; label.textContent = "days to wheels-up"; }
     else if (days === 1) { num.textContent = "1"; label.textContent = "day — pack tonight"; }
     else if (days >= -7 && days <= 0) { num.textContent = "☀"; label.textContent = "trip in progress — go eat lobster"; }
@@ -39,7 +77,6 @@
   (function(){
     var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
     var days = Array.prototype.slice.call(document.querySelectorAll(".day"));
-    if (!days.length) return;
     function spy(){
       var pos = window.scrollY + 120, current = days[0];
       days.forEach(function(d){ if (d.offsetTop <= pos) current = d; });
@@ -62,11 +99,10 @@
     });
   })();
 
-  // persistent checklist
+  // ---- persistent checklist (real localStorage now that this is a live site) ----
   (function(){
     var KEY = "maine-trip-checklist-v1";
     var boxes = Array.prototype.slice.call(document.querySelectorAll(".todo input"));
-    if (!boxes.length) return;
     var saved = {};
     try { saved = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ saved = {}; }
 
@@ -92,10 +128,8 @@
     updateProgress();
   })();
 
-  // live weather chip (Open-Meteo, no key needed)
+  // ---- live weather chip (Open-Meteo, no key needed) ----
   (function(){
-    var chip = document.getElementById("weather-chip");
-    if (!chip) return;
     var codeMap = {0:["☀️","Clear"],1:["🌤️","Mostly clear"],2:["⛅","Partly cloudy"],3:["☁️","Overcast"],
       45:["🌫️","Foggy"],48:["🌫️","Foggy"],51:["🌦️","Light drizzle"],61:["🌧️","Light rain"],63:["🌧️","Rain"],
       65:["🌧️","Heavy rain"],71:["🌨️","Snow"],80:["🌦️","Showers"],95:["⛈️","Thunderstorms"]};
@@ -103,17 +137,18 @@
       .then(function(r){ return r.json(); })
       .then(function(d){
         var t = Math.round(d.current.temperature_2m);
-        var info = codeMap[d.current.weather_code] || ["🌊","In Maine"];
+        var code = d.current.weather_code;
+        var info = codeMap[code] || ["🌊","In Maine"];
         document.getElementById("wx-temp").textContent = t + "°F";
         document.getElementById("wx-label").textContent = info[1] + " in Portland, ME right now";
-        chip.querySelector(".wemoji").textContent = info[0];
+        document.querySelector("#weather-chip .wemoji").textContent = info[0];
       })
       .catch(function(){
         document.getElementById("wx-label").textContent = "weather check unavailable";
       });
   })();
 
-  // photo lightbox
+  // ---- photo lightbox ----
   (function(){
     var lb = document.createElement("div");
     lb.id = "lightbox";
@@ -140,9 +175,8 @@
     document.addEventListener("keydown", function(e){ if (e.key === "Escape") closeLb(); });
   })();
 
-  // interactive route map (Leaflet from CDN)
+  // ---- interactive route map (Leaflet, loaded from CDN) ----
   (function(){
-    if (!document.getElementById("route-map")) return;
     var script = document.createElement("script");
     script.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
     script.onload = initMap;
@@ -214,8 +248,8 @@
       if (allLatLngs.length) map.fitBounds(allLatLngs, {padding:[24,24]});
     }
   })();
-
-  // packing list persistence
+(function(){
+// ---- packing list persistence ----
   (function(){
     var KEY = "maine-trip-packing-v1";
     var saved = {};
@@ -241,5 +275,9 @@
       update();
     });
   })();
+})();
+  }
+
+  injectAll().then(initBehaviors);
 
 })();
