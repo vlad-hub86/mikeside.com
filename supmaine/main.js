@@ -214,7 +214,10 @@
           [43.6544,-70.2456,"Casco Bay ferry terminal"],
           [43.6555,-70.1990,"Peaks Island lobster bake"],
           [43.6534,-70.2610,"Holiday Inn By the Bay — tonight"]]},
-        {n:"Sat–Sun", color:"#E4D7B8", stops:[
+        {n:"Sat 8", color:"#E4D7B8", stops:[
+          [43.6534,-70.2610,"Holiday Inn By the Bay — wedding-weekend base"],
+          [43.6580,-70.2690,"Deering Oaks farmers' market (Sat morning)"]]},
+        {n:"Sun 9", color:"#8E7CC3", stops:[
           [43.6231,-70.2079,"Portland Head Light"],
           [43.5633,-70.2297,"Crescent Beach"],
           [43.5597,-70.2045,"Two Lights State Park"],
