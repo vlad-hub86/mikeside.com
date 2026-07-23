@@ -120,7 +120,11 @@
     ".leg{position:relative;margin:0 0 13px;padding-left:2px;font-family:\"IBM Plex Mono\",monospace;" +
     "font-size:10.5px;font-weight:500;color:var(--ink-soft);letter-spacing:.05em;text-transform:uppercase;" +
     "display:flex;align-items:center;gap:7px}" +
-    ".leg::before{content:\"↓\";color:var(--buoy);font-size:13px;font-weight:700}";
+    ".leg::before{content:\"↓\";color:var(--buoy);font-size:13px;font-weight:700}" +
+    ".pack-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}" +
+    ".pack-tab{font-family:\"IBM Plex Mono\",monospace;font-size:12px;font-weight:600;text-decoration:none;color:var(--ink);border:1.5px solid var(--line);border-radius:999px;padding:6px 13px;background:var(--paper);transition:all .15s}" +
+    ".pack-tab:hover{border-color:var(--ink);background:var(--ink);color:var(--fog)}" +
+    ".pack-card{scroll-margin-top:80px}";
   document.head.appendChild(css);
 
   function boot(){
