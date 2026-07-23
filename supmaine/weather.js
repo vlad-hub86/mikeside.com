@@ -8,7 +8,8 @@
     d2: {lat:44.21, lon:-69.10, tags:["hike","walk","evening"]},
     d3: {lat:44.34, lon:-68.22, tags:["hike","bike","summit"]},
     d4: {lat:43.65, lon:-70.19, tags:["ferry","beach","evening"]},
-    d5: {lat:43.62, lon:-70.21, tags:["formal","beach"]},
+    d5: {lat:43.62, lon:-70.21, tags:["formal"]},
+    d5b: {lat:43.66, lon:-70.25, tags:["walk","bike","beach"]},
     d6: {lat:43.55, lon:-70.33, tags:["walk","bike","beach"]},
     d7: {lat:43.65, lon:-70.30, tags:["travel"]}
   };
