@@ -45,8 +45,8 @@
     border:1.5px solid var(--ink);border-radius:999px;padding:5px 13px;background:var(--paper);
     display:inline-block;line-height:1.4;
   }
-  .crew a,.crew a:link,.crew a:visited{color:var(--ink);text-decoration:none;cursor:pointer;transition:all .15s}
-  .crew a:hover,.crew a:focus-visible{background:var(--ink);color:var(--fog);outline:none}
+  .crew a,.crew a:link,.crew a:visited,.crew a:hover,.crew a:focus,.crew a:active{color:var(--ink);text-decoration:none;cursor:pointer;background:var(--paper);border-color:var(--ink)}
+  .crew a:focus-visible{outline:2px solid var(--seaglass);outline-offset:2px}
   .countdown{
     margin-top:22px;display:inline-flex;align-items:baseline;gap:10px;
     background:var(--ink);color:var(--fog);border-radius:var(--radius);padding:14px 20px;
