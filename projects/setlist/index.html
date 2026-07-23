@@ -127,7 +127,7 @@
   <script>
   (function () {
     var RAW = "https://raw.githubusercontent.com/vlad-hub86/phish-setlist-bot/main/docs";
-    var MARKS = ["†", "‡", "§", "¶", "‖"];
+    var MARKS = ["¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"];
     var board = document.getElementById("board");
     var listEl = document.getElementById("showlist");
     var liveData = null;
@@ -177,7 +177,7 @@
           var song = s.songs[i];
           var mark = "";
           if (song.footnote) {
-            mark = MARKS[mi % MARKS.length]; mi++;
+            mark = MARKS[mi] || "(" + (mi + 1) + ")"; mi++;
             footnotes.push(mark + " " + song.footnote);
           }
           var isCurrent = live && si === data.sets.length - 1 && i === s.songs.length - 1;
