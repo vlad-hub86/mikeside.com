@@ -3,12 +3,14 @@
 
   // Google Place photos for the itinerary: a photo strip under each stop, plus a
   // banner fallback for any day whose curated image is missing or fails to load.
+  // Uses the NEW Places API (google.maps.places.Place) — the legacy PlacesService
+  // is blocked for projects created after March 2025.
   // NOTE: this key ships in public page source — it MUST be restricted in the Google
-  // Cloud console (HTTP referrer = supmaine.mikeside.com) and quota-capped, and needs
-  // both "Maps JavaScript API" and "Places API" enabled on the project.
+  // Cloud console (HTTP referrer = supmaine.mikeside.com) and quota-capped, and its
+  // API-restriction list MUST include "Maps JavaScript API" and "Places API (New)".
   var KEY = "AIzaSyAUT6tkXPxU5SPvf61maQUgWyAYcVraTaM";
 
-  var CACHE_KEY = "maine-place-photos-v2";
+  var CACHE_KEY = "maine-place-photos-v3";
   var STOP_SHOTS = 3;                 // max photos injected per stop
   var cache = {};
   try { cache = JSON.parse(localStorage.getItem(CACHE_KEY)) || {}; } catch(e){ cache = {}; }
@@ -46,7 +48,20 @@
   }
   function asList(v){ return Array.isArray(v) ? v : (v ? [v] : []); }
 
-  var svc = null;
+  // ---------- new Places API text search → photo URLs ----------
+  function searchPhotos(query, want, maxWidth){
+    return google.maps.places.Place.searchByText({
+      textQuery: query,
+      fields: ["photos"],
+      maxResultCount: 1
+    }).then(function(res){
+      var places = res && res.places;
+      if (!places || !places.length) return null;
+      var photos = places[0].photos || [];
+      if (!photos.length) return null;
+      return photos.slice(0, want).map(function(p){ return p.getURI({ maxWidth: maxWidth }); });
+    }).catch(function(e){ if (window.console) console.warn("[photos]", query, e && e.message); return null; });
+  }
 
   // ---------- per-stop photo strip ----------
   function injectShots(stop, urls, query){
@@ -71,15 +86,11 @@
   function fetchPhoto(stop, query){
     if (stop.querySelector("img") || stop.querySelector(".stop-shots")) return;
     if (cache[query]) { injectShots(stop, cache[query], query); return; }
-    try {
-      svc.findPlaceFromQuery({ query: query, fields: ["photos"] }, function(res, status){
-        if (status !== google.maps.places.PlacesServiceStatus.OK) return;
-        if (!res || !res[0] || !res[0].photos || !res[0].photos.length) return;
-        var urls = res[0].photos.slice(0, STOP_SHOTS).map(function(p){ return p.getUrl({ maxWidth: 400 }); });
-        cache[query] = urls; saveCache();
-        injectShots(stop, urls, query);
-      });
-    } catch(e){ if (window.console) console.warn("[photos]", e); }
+    searchPhotos(query, STOP_SHOTS, 400).then(function(urls){
+      if (!urls) return;
+      cache[query] = urls; saveCache();
+      injectShots(stop, urls, query);
+    });
   }
 
   // ---------- per-day banner (Google fallback / fill the gap) ----------
@@ -103,15 +114,11 @@
     if (dp.querySelector("img.gphoto")) return;
     var ck = "hero::" + query;
     if (cache[ck]) { bannerImg(dp, cache[ck], query); return; }
-    try {
-      svc.findPlaceFromQuery({ query: query, fields: ["photos"] }, function(res, status){
-        if (status !== google.maps.places.PlacesServiceStatus.OK) { cleanupEmpty(dp); return; }
-        if (!res || !res[0] || !res[0].photos || !res[0].photos.length) { cleanupEmpty(dp); return; }
-        var url = res[0].photos[0].getUrl({ maxWidth: 900 });
-        cache[ck] = url; saveCache();
-        bannerImg(dp, url, query);
-      });
-    } catch(e){ cleanupEmpty(dp); }
+    searchPhotos(query, 1, 900).then(function(urls){
+      if (!urls) { cleanupEmpty(dp); return; }
+      cache[ck] = urls[0]; saveCache();
+      bannerImg(dp, urls[0], query);
+    });
   }
   function ensureBanner(sec){
     var query = HERO[sec.id]; if (!query) return;
@@ -134,8 +141,7 @@
   }
 
   function run(){
-    if (!window.google || !google.maps || !google.maps.places) return;
-    if (!svc) svc = new google.maps.places.PlacesService(document.createElement("div"));
+    if (!window.google || !google.maps || !google.maps.places || !google.maps.places.Place) return;
     document.querySelectorAll(".day").forEach(function(sec){ ensureBanner(sec); });
     document.querySelectorAll(".day .stop").forEach(function(stop){
       if (stop.querySelector("img") || stop.querySelector(".stop-shots")) return;
@@ -151,7 +157,7 @@
 
   function loadMaps(){
     if (document.getElementById("gmaps-js")) {
-      if (window.google && google.maps && google.maps.places){ googleReady = true; tryRun(); }
+      if (window.google && google.maps && google.maps.places && google.maps.places.Place){ googleReady = true; tryRun(); }
       return;
     }
     var s = document.createElement("script");
