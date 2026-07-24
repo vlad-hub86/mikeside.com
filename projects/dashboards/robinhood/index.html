@@ -27,8 +27,8 @@
   .brand .sub{font-size:12px;color:var(--muted);margin-top:1px}
   .whoami{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted)}
   .btn{background:var(--panel-2);border:1px solid var(--line);color:var(--text);
-    padding:8px 14px;border-radius:10px;font-size:13px;cursor:pointer}
-  .btn:hover{border-color:#3a475a}
+    padding:8px 14px;border-radius:10px;font-size:13px;cursor:pointer;text-decoration:none;display:inline-block}
+  .btn:hover{border-color:#3a475a;text-decoration:none}
 
   .status-banner{background:linear-gradient(90deg,rgba(110,168,254,.10),rgba(110,168,254,0));
     border:1px solid var(--line);border-left:3px solid var(--accent);
@@ -80,6 +80,7 @@
       </div>
       <div class="whoami">
         <span class="pill">&#128274; Protected by Cloudflare Access</span>
+        <a class="btn" href="/cdn-cgi/access/logout">Log out</a>
       </div>
     </div>
 
@@ -137,9 +138,11 @@
   SECURITY MODEL
   --------------
   This page carries NO login of its own. Access is enforced at the edge by
-  Cloudflare Access (Zero Trust), which requires Google sign-in as
-  vlad05@gmail.com before the page is ever served. Do not deploy
-  real portfolio data until the Cloudflare Access policy is active and tested.
+  Cloudflare Access (Zero Trust), which requires sign-in as vlad05@gmail.com
+  (one-time email code) before the page is ever served. The "Log out" button
+  links to /cdn-cgi/access/logout to end the Access session. Served from
+  Cloudflare Pages (danglemystash) — not Porkbun — so there is no public
+  origin to bypass Access.
 -->
 </body>
 </html>
