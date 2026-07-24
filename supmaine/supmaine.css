@@ -168,8 +168,8 @@
     background:rgba(94,143,126,.1);border:1px solid rgba(94,143,126,.35);
     border-radius:10px;padding:12px 15px;margin:12px 0;
   }
-  .flight .apt{font-family:"Bricolage Grotesque",serif;font-weight:800;font-size:21px}
-  .flight .tm{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft)}
+  .flight .apt{font-family:"Bricolage Grotesque",serif;font-weight:800;font-size:21px;line-height:1.1;display:block}
+  .flight .tm{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-soft);display:block;margin-top:4px;line-height:1.2}
   .flight .mid{
     font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--seaglass);
     text-align:center;font-weight:600;letter-spacing:.05em;
