@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Phish @ MSG — Setlist Predictions</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface-1:      #fcfcfb;
+    --surface-2:      #f2f1ec;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --accent:         #2a78d6;
+    --accent-2:       #eb6834;
+    --good:           #0ca30c;
+    --good-text:      #006300;
+    --warn:           #fab219;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface-1:      #1a1a19;
+      --surface-2:      #232320;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --accent:         #3987e5;
+      --accent-2:       #d95926;
+      --good:           #0ca30c;
+      --good-text:      #46d446;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+    padding: 24px 16px 60px;
+    line-height: 1.4;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  header { margin-bottom: 18px; }
+  .masthead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; }
+  h1 { font-size: 25px; font-weight: 700; letter-spacing: -0.02em; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; color: var(--accent-2);
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 10px; background: var(--surface-1);
+  }
+  .sub { font-size: 13px; color: var(--text-muted); margin-top: 6px; max-width: 70ch; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
+  .btn {
+    font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    color: var(--text-secondary); background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px 11px;
+  }
+  .btn:hover { border-color: var(--baseline); color: var(--text-primary); }
+  .btn.warn:hover { border-color: var(--warn); }
+
+  /* Tabs */
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 14px; }
+  .tab {
+    font: inherit; cursor: pointer; text-align: left;
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px 12px; min-width: 118px; flex: 1 1 118px;
+    color: var(--text-secondary);
+  }
+  .tab .ty { font-size: 17px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.01em; }
+  .tab .td { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  .tab[aria-selected="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .tab .dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-left:5px; vertical-align: middle; }
+  .dot.done { background: var(--good); }
+  .dot.tonight { background: var(--accent-2); }
+  .dot.up { background: var(--baseline); }
+
+  /* Panel */
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .panel-head { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom: 4px; }
+  .panel-title { font-size: 16px; font-weight: 700; }
+  .panel-meta { font-size: 12px; color: var(--text-muted); }
+  .status-chip { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 5px; padding: 3px 7px; border: 1px solid var(--border); }
+  .status-chip.done { color: var(--good-text); border-color: var(--good); }
+  .status-chip.tonight { color: var(--accent-2); border-color: var(--accent-2); }
+  .status-chip.up { color: var(--text-secondary); }
+  .panel-note { font-size: 12.5px; color: var(--text-secondary); margin: 8px 0 4px; }
+  .counter { font-size: 12.5px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .counter b { color: var(--text-primary); }
+
+  .setblock { margin-top: 16px; }
+  .set-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 6px; display:flex; align-items:center; gap:8px;
+  }
+  .set-count { font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--baseline); }
+  ul.songs { list-style: none; }
+  .song {
+    display: flex; align-items: center; gap: 10px; padding: 6px 4px;
+    border-top: 1px solid var(--grid);
+  }
+  .song:first-child { border-top: none; }
+  .song input[type=checkbox] { width: 16px; height: 16px; flex: none; cursor: pointer; accent-color: var(--good); }
+  .song .name {
+    flex: 1; font-size: 14px; padding: 3px 6px; border-radius: 6px;
+    border: 1px solid transparent; outline: none; min-width: 0;
+  }
+  .song .name:hover { background: var(--surface-2); }
+  .song .name:focus { border-color: var(--accent); background: var(--surface-2); }
+  .song.hit .name { text-decoration: line-through; color: var(--text-muted); }
+  .song .del {
+    flex: none; font: inherit; cursor: pointer; color: var(--text-muted);
+    background: none; border: none; font-size: 17px; line-height: 1; padding: 2px 6px; border-radius: 6px;
+  }
+  .song .del:hover { color: var(--accent-2); background: var(--surface-2); }
+  .addrow { margin-top: 6px; }
+  .add-btn { font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; color: var(--accent); background: none; border: 1px dashed var(--border); border-radius: 7px; padding: 5px 10px; }
+  .add-btn:hover { border-color: var(--accent); }
+  .panel-foot { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin-top: 18px; border-top: 1px solid var(--grid); padding-top: 12px; }
+  footer { margin-top: 22px; font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  .savenote { font-size: 11.5px; color: var(--text-muted); margin-left: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="masthead">
+      <h1>Phish @ MSG — Setlist Predictions</h1>
+      <span class="pill">5 NIGHTS · #92–96</span>
+    </div>
+    <p class="sub">Five-night Madison Square Garden run celebrating Phish's 92nd through 96th shows at the Garden — each night themed to a year, <b>1992 → 1996</b>. Twenty predicted songs per night; check them off as they're played. Everything here is editable — click any song to rename it, use ✕ to remove, <b>+ add</b> to insert your own. Each night has its own list and its own <b>Reset</b>.</p>
+    <div class="toolbar">
+      <button class="btn" id="exportBtn">Copy all predictions</button>
+      <button class="btn warn" id="resetAllBtn">Reset all nights to Claude's picks</button>
+      <span class="savenote" id="saveNote"></span>
+    </div>
+  </header>
+
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <div class="card" id="panel" role="tabpanel"></div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---- default data: Claude's predictions -------------------------------
+  function song(n, hit) { return { name: n, hit: !!hit }; }
+  function s(arr, hit) { return arr.map(function (n) { return song(n, hit); }); }
+
+  var DEFAULTS = {
+    nights: [
+      {
+        n: 1, year: "1992", show: 92, date: "Wed · Jul 22", status: "done",
+        note: "Actual setlist as reported (JamBase) — the '92 opener. Pre-checked as played; edit if any detail is off and verify on phish.net.",
+        sets: [
+          { name: "Set 1", songs: s(["Glide","Runaway Jim","Foam","Axilla","Stash","Cold as Ice","Love You","Hold Your Head Up","Sparkle","AC/DC Bag","Reba","Possum","David Bowie"], true) },
+          { name: "Set 2", songs: s(["Mike's Song","I Am Hydrogen","Weekapaug Groove","Bouncing Around the Room","My Friend, My Friend","Split Open and Melt","The Lizards","Harry Hood"], true) },
+          { name: "Encore", songs: s(["The Horse","Silent in the Morning","Big Black Furry Creature from Mars","Run Like an Antelope"], true) }
+        ]
+      },
+      {
+        n: 2, year: "1993", show: 93, date: "Fri · Jul 24", status: "tonight",
+        note: "Rift-era 1993: tight composed songs, the full Rift songbook, the Purple Rain vacuum solo, secret-language teases.",
+        sets: [
+          { name: "Set 1", songs: s(["Chalk Dust Torture","Rift","Guelah Papyrus","It's Ice","Fast Enough for You","Maze","Sparkle","Stash","Cavern"]) },
+          { name: "Set 2", songs: s(["Tweezer","The Wedge","All Things Reconsidered","Mike's Song","I Am Hydrogen","Weekapaug Groove","Purple Rain","David Bowie"]) },
+          { name: "Encore", songs: s(["Lengthwise","Amazing Grace","Rocky Top"]) }
+        ]
+      },
+      {
+        n: 3, year: "1994", show: 94, date: "Sat · Jul 25", status: "up",
+        note: "Hoist era 1994: Sample/Julius/Wolfman's, the year Down with Disease & Simple arrived, bluegrass, and a White-Album Halloween nod.",
+        sets: [
+          { name: "Set 1", songs: s(["Sample in a Jar","Wolfman's Brother","Poor Heart","Scent of a Mule","If I Could","Julius","Fee","Down with Disease","Chalk Dust Torture"]) },
+          { name: "Set 2", songs: s(["Simple","Mike's Song","I Am Hydrogen","Weekapaug Groove","Gumbo","Tweezer","Lifeboy","Slave to the Traffic Light"]) },
+          { name: "Encore", songs: s(["Nellie Kane","Dear Prudence","Highway to Hell"]) }
+        ]
+      },
+      {
+        n: 4, year: "1995", show: 95, date: "Mon · Jul 27", status: "up",
+        note: "A Live One era 1995: dark, exploratory jams; the Free / Theme / Spock's Brain / Prince Caspian debuts; a nod to their 12/31/95 MSG night.",
+        sets: [
+          { name: "Set 1", songs: s(["Ha Ha Ha","Runaway Jim","Divided Sky","Free","Strange Design","Sparkle","Split Open and Melt","Theme From the Bottom","Chalk Dust Torture"]) },
+          { name: "Set 2", songs: s(["Timber (Jerry)","Bathtub Gin","Mike's Song","Simple","Weekapaug Groove","Prince Caspian","Slave to the Traffic Light","You Enjoy Myself"]) },
+          { name: "Encore", songs: s(["Spock's Brain","A Day in the Life","Sweet Adeline"]) }
+        ]
+      },
+      {
+        n: 5, year: "1996", show: 96, date: "Wed · Jul 29", status: "up",
+        note: "Billy Breathes era 1996 — the closer: Character Zero & the new album cuts, the 2001 breakout, and a Remain in Light (Talking Heads) Halloween nod.",
+        sets: [
+          { name: "Set 1", songs: s(["AC/DC Bag","Sample in a Jar","Train Song","Taste","Waste","Talk","Stash","Theme From the Bottom","Run Like an Antelope"]) },
+          { name: "Set 2", songs: s(["Also Sprach Zarathustra (2001)","Down with Disease","Crosseyed and Painless","Free","Swept Away","Steep","Prince Caspian","You Enjoy Myself"]) },
+          { name: "Encore", songs: s(["Billy Breathes","Character Zero","Rocky Top"]) }
+        ]
+      }
+    ]
+  };
+
+  var KEY = "phish-msg-96-predictions-v1";
+  var state, active = 0;
+
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      if (raw) { state = JSON.parse(raw); return true; }
+    } catch (e) {}
+    state = clone(DEFAULTS);
+    return false;
+  }
+  function save() {
+    try { window.localStorage.setItem(KEY, JSON.stringify(state)); flashSaved(); }
+    catch (e) { setSaveNote("Edits apply for this session (couldn't save locally here)."); }
+  }
+  var saveTimer;
+  function flashSaved() {
+    setSaveNote("Saved ✓");
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () { setSaveNote(""); }, 1400);
+  }
+  function setSaveNote(t) { document.getElementById("saveNote").textContent = t; }
+
+  function nightTotals(night) {
+    var total = 0, hit = 0;
+    night.sets.forEach(function (set) {
+      set.songs.forEach(function (sg) { total++; if (sg.hit) hit++; });
+    });
+    return { total: total, hit: hit };
+  }
+
+  function renderTabs() {
+    var tabs = document.getElementById("tabs");
+    tabs.innerHTML = "";
+    state.nights.forEach(function (night, i) {
+      var b = document.createElement("button");
+      b.className = "tab";
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", i === active ? "true" : "false");
+      var dotClass = night.status === "done" ? "done" : (night.status === "tonight" ? "tonight" : "up");
+      b.innerHTML = '<div class="ty">' + night.year + '<span class="dot ' + dotClass + '"></span></div>' +
+                    '<div class="td">Night ' + night.n + ' · #' + night.show + ' · ' + night.date + '</div>';
+      b.addEventListener("click", function () { active = i; render(); });
+      tabs.appendChild(b);
+    });
+  }
+
+  function statusText(st) {
+    return st === "done" ? "Played" : (st === "tonight" ? "Tonight" : "Upcoming");
+  }
+
+  function renderPanel() {
+    var night = state.nights[active];
+    var panel = document.getElementById("panel");
+    var t = nightTotals(night);
+    panel.innerHTML = "";
+
+    var head = document.createElement("div");
+    head.className = "panel-head";
+    head.innerHTML =
+      '<div><div class="panel-title">' + night.year + ' Night — Show #' + night.show + '</div>' +
+      '<div class="panel-meta">Night ' + night.n + ' of 5 · ' + night.date + ' · Madison Square Garden</div></div>' +
+      '<span class="status-chip ' + night.status + '">' + statusText(night.status) + '</span>';
+    panel.appendChild(head);
+
+    var note = document.createElement("p");
+    note.className = "panel-note";
+    note.textContent = night.note;
+    panel.appendChild(note);
+
+    var cnt = document.createElement("div");
+    cnt.className = "counter";
+    cnt.innerHTML = '<b>' + t.hit + '</b> / ' + t.total + ' played';
+    panel.appendChild(cnt);
+
+    night.sets.forEach(function (set, si) {
+      var block = document.createElement("div");
+      block.className = "setblock";
+      var lbl = document.createElement("div");
+      lbl.className = "set-label";
+      lbl.innerHTML = set.name + ' <span class="set-count">' + set.songs.length + ' songs</span>';
+      block.appendChild(lbl);
+
+      var ul = document.createElement("ul");
+      ul.className = "songs";
+      set.songs.forEach(function (sg, gi) {
+        ul.appendChild(songRow(night, si, gi, sg));
+      });
+      block.appendChild(ul);
+
+      var addRow = document.createElement("div");
+      addRow.className = "addrow";
+      var addBtn = document.createElement("button");
+      addBtn.className = "add-btn";
+      addBtn.textContent = "+ add song";
+      addBtn.addEventListener("click", function () {
+        set.songs.push(song("", false));
+        save(); render();
+        // focus the newly added field
+        var lists = document.querySelectorAll(".songs");
+        var last = lists[si] && lists[si].lastElementChild;
+        if (last) { var nm = last.querySelector(".name"); if (nm) nm.focus(); }
+      });
+      addRow.appendChild(addBtn);
+      block.appendChild(addRow);
+
+      panel.appendChild(block);
+    });
+
+    var foot = document.createElement("div");
+    foot.className = "panel-foot";
+    var reset = document.createElement("button");
+    reset.className = "btn warn";
+    reset.textContent = "Reset this night to Claude's picks";
+    reset.addEventListener("click", function () {
+      if (window.confirm("Replace your edits for the " + night.year + " night with Claude's original 20 picks?")) {
+        state.nights[active] = clone(DEFAULTS.nights[active]);
+        save(); render();
+      }
+    });
+    var clearHits = document.createElement("button");
+    clearHits.className = "btn";
+    clearHits.textContent = "Clear checkmarks";
+    clearHits.addEventListener("click", function () {
+      night.sets.forEach(function (set) { set.songs.forEach(function (sg) { sg.hit = false; }); });
+      save(); render();
+    });
+    foot.appendChild(clearHits);
+    foot.appendChild(reset);
+    panel.appendChild(foot);
+  }
+
+  function songRow(night, si, gi, sg) {
+    var li = document.createElement("li");
+    li.className = "song" + (sg.hit ? " hit" : "");
+
+    var cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = sg.hit;
+    cb.title = "Mark as played";
+    cb.addEventListener("change", function () {
+      sg.hit = cb.checked;
+      li.classList.toggle("hit", sg.hit);
+      // update counter without full re-render
+      var t = nightTotals(night);
+      var c = document.querySelector(".counter");
+      if (c) c.innerHTML = '<b>' + t.hit + '</b> / ' + t.total + ' played';
+      save();
+    });
+
+    var nm = document.createElement("div");
+    nm.className = "name";
+    nm.contentEditable = "true";
+    nm.spellcheck = false;
+    nm.textContent = sg.name;
+    nm.setAttribute("role", "textbox");
+    nm.addEventListener("blur", function () {
+      sg.name = nm.textContent.replace(/\s+/g, " ").trim();
+      save();
+    });
+    nm.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); nm.blur(); }
+    });
+
+    var del = document.createElement("button");
+    del.className = "del";
+    del.innerHTML = "×";
+    del.title = "Remove song";
+    del.addEventListener("click", function () {
+      night.sets[si].songs.splice(gi, 1);
+      save(); render();
+    });
+
+    li.appendChild(cb);
+    li.appendChild(nm);
+    li.appendChild(del);
+    return li;
+  }
+
+  function render() { renderTabs(); renderPanel(); }
+
+  // ---- toolbar ----------------------------------------------------------
+  document.getElementById("resetAllBtn").addEventListener("click", function () {
+    if (window.confirm("Reset ALL five nights back to Claude's original picks? This clears every edit and checkmark.")) {
+      state = clone(DEFAULTS); active = 0; save(); render();
+    }
+  });
+
+  document.getElementById("exportBtn").addEventListener("click", function () {
+    var lines = ["PHISH @ MSG 2026 — SETLIST PREDICTIONS (Shows #92–96)", ""];
+    state.nights.forEach(function (night) {
+      lines.push("=== " + night.year + " · Night " + night.n + " · Show #" + night.show + " · " + night.date + " ===");
+      night.sets.forEach(function (set) {
+        lines.push(set.name + ":");
+        set.songs.forEach(function (sg) {
+          lines.push("  " + (sg.hit ? "[x] " : "[ ] ") + sg.name);
+        });
+      });
+      lines.push("");
+    });
+    var text = lines.join("\n");
+    var done = function () { setSaveNote("Copied ✓"); setTimeout(function(){ setSaveNote(""); }, 1500); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text, done); });
+    } else { fallbackCopy(text, done); }
+  });
+  function fallbackCopy(text, cb) {
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); cb(); } catch (e) { window.prompt("Copy the predictions:", text); }
+    document.body.removeChild(ta);
+  }
+
+  document.getElementById("foot").innerHTML =
+    "Predictions by Claude — starting points to edit, not insider info. Night 1 (1992) reflects the reported actual setlist; nights 2–5 are guesses weighted to each year's songbook. " +
+    "Your edits and checkmarks save in this browser. Run: MSG shows #92–96, Jul 22 / 24 / 25 / 27 / 29, 2026.";
+
+  // ---- boot -------------------------------------------------------------
+  var restored = load();
+  // default to the first not-yet-played night for convenience
+  if (!restored) {
+    for (var i = 0; i < state.nights.length; i++) {
+      if (state.nights[i].status !== "done") { active = i; break; }
+    }
+  }
+  render();
+  if (restored) setSaveNote("Restored your saved edits");
+})();
+</script>
+</body>
+</html>
