@@ -1,8 +1,8 @@
 (function(){
   "use strict";
 
-  // Google Place photos for the itinerary: a photo strip under each stop, plus a
-  // banner fallback for any day whose curated image is missing or fails to load.
+  // Google Place photos for the itinerary: a photo strip under each stop, plus an
+  // iconic Place photo as each day's banner (couple photo kept on the wedding day).
   // Uses the NEW Places API (google.maps.places.Place) — the legacy PlacesService
   // is blocked for projects created after March 2025.
   // NOTE: this key ships in public page source — it MUST be restricted in the Google
@@ -16,16 +16,16 @@
   try { cache = JSON.parse(localStorage.getItem(CACHE_KEY)) || {}; } catch(e){ cache = {}; }
   function saveCache(){ try { localStorage.setItem(CACHE_KEY, JSON.stringify(cache)); } catch(e){} }
 
-  // Banner query per day — used only when a day has no working photo banner.
+  // The most iconic place per leg — its Google Place photo becomes that day's banner,
+  // layered over the SVG/curated fallback. d5 is intentionally absent (couple photo stays).
   var HERO = {
-    d1:"Boothbay Harbor Maine",
-    d2:"Camden Maine harbor",
-    d3:"Acadia National Park Maine",
-    d4:"Portland Head Light Cape Elizabeth Maine",
-    d5:"Portland Maine waterfront",
-    d5b:"Two Lights State Park Cape Elizabeth Maine",
-    d6:"Old Port Portland Maine",
-    d7:"Portland Head Light Maine"
+    d1:"Boothbay Harbor, Maine",
+    d2:"Camden Harbor, Maine",
+    d3:"Jordan Pond, Acadia National Park",
+    d4:"Peaks Island, Portland, Maine",
+    d5b:"Two Lights State Park, Cape Elizabeth, Maine",
+    d6:"Old Port, Portland, Maine",
+    d7:"Portland Head Light, Cape Elizabeth"
   };
 
   // styles for the per-stop photo strip + injected banner
@@ -93,7 +93,7 @@
     });
   }
 
-  // ---------- per-day banner (Google fallback / fill the gap) ----------
+  // ---------- per-day banner ----------
   function cleanupEmpty(dp){
     if (dp && dp.getAttribute("data-created") === "1" && !dp.querySelector("img.gphoto")) dp.remove();
   }
@@ -121,7 +121,7 @@
     });
   }
   function ensureBanner(sec){
-    var query = HERO[sec.id]; if (!query) return;
+    var query = HERO[sec.id]; if (!query) return;                      // d5 (couple photo) not in HERO → left alone
     var body = sec.querySelector(".card-body"); if (!body) return;
     var dp = sec.querySelector(".day-photo");
     if (!dp){
@@ -130,14 +130,9 @@
       dp.setAttribute("data-created", "1");
       var intro = body.querySelector(".day-intro");
       if (intro) body.insertBefore(dp, intro); else body.insertBefore(dp, body.firstChild);
-      fetchBanner(dp, query);
-      return;
     }
-    if (dp.querySelector("img.gphoto")) return;
-    var wm = dp.querySelector("img");
-    if (!wm) { fetchBanner(dp, query); return; }                       // curated image already gone
-    if (wm.complete && wm.naturalWidth === 0) { fetchBanner(dp, query); return; }  // already broken
-    if (!wm.complete) { wm.addEventListener("error", function(){ fetchBanner(dp, query); }); }
+    if (dp.querySelector("img.gphoto")) return;                        // already have the Google banner
+    fetchBanner(dp, query);                                            // iconic Place photo, layered over the SVG/curated fallback
   }
 
   function run(){
