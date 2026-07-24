@@ -6,7 +6,7 @@
   // NOTE: this key ships in public page source — it MUST be restricted in the Google
   // Cloud console (HTTP referrer = supmaine.mikeside.com) and quota-capped, and needs
   // both "Maps JavaScript API" and "Places API" enabled on the project.
-  var KEY = "AIzaSyC5ENEyq3BFgVUkpsR8iJFjcJiOy5M7W6o";
+  var KEY = "AIzaSyAUT6tkXPxU5SPvf61maQUgWyAYcVraTaM";
 
   var CACHE_KEY = "maine-place-photos-v2";
   var STOP_SHOTS = 3;                 // max photos injected per stop
